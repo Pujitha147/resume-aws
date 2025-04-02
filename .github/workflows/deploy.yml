@@ -30,12 +30,19 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1  # Change to your AWS region
 
-      - name: Install AWS CLI
+      - name: Install or Update AWS CLI
         run: |
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-          unzip awscliv2.zip
-          sudo ./aws/install
+          if aws --version; then
+            echo "AWS CLI already installed. Updating..."
+            sudo ./aws/install --update
+          else
+            echo "Installing AWS CLI..."
+            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+            unzip awscliv2.zip
+            sudo ./aws/install
+          fi
 
       - name: Upload files to S3
         run: |
           aws s3 sync . s3://resumedata-aws --delete
+
