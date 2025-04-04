@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h2>Resume Details</h2>
+    
+    <input type="text" id="name" placeholder="Enter your name"><br><br>
+    <textarea id="education" placeholder="Enter your education"></textarea><br><br>
+    <textarea id="skills" placeholder="Enter your skills"></textarea><br><br>
+    <textarea id="experience" placeholder="Enter your experience"></textarea><br><br>
+    
+    <button onclick="saveDetails()">Save</button>
+
+    <script>
+        function saveDetails() {
+            // Get input values
+            const name = document.getElementById("name").value;
+            const education = document.getElementById("education").value;
+            const skills = document.getElementById("skills").value;
+            const experience = document.getElementById("experience").value;
+
+            if (!name || !education || !skills || !experience) {
+                alert("Please fill all fields before saving.");
+                return;
+            }
+
+            // Store details in localStorage
+            const resumeData = { name, education, skills, experience };
+            localStorage.setItem("resume", JSON.stringify(resumeData));
+
+            // Redirect to resume page
+            window.location.href = "resume.html";
+        }
+    </script>
+</body>
+</html>
