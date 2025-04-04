@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Preview</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h2>Resume</h2>
+    <div id="resumeDisplay"></div>
+    
+    <button onclick="editResume()">Edit</button>
+    <button onclick="downloadResume()">Download</button>
+
+    <script>
+        function loadResume() {
+            const data = JSON.parse(localStorage.getItem("resume"));
+            if (data) {
+                document.getElementById("resumeDisplay").innerHTML = `
+                    <p><strong>Name:</strong> ${data.name}</p>
+                    <p><strong>Education:</strong> ${data.education}</p>
+                    <p><strong>Skills:</strong> ${data.skills}</p>
+                    <p><strong>Experience:</strong> ${data.experience}</p>
+                `;
+            } else {
+                document.getElementById("resumeDisplay").innerHTML = "<p>No resume data found.</p>";
+            }
+        }
+
+        function editResume() {
+            window.location.href = "dashboard.html";
+        }
+
+        function downloadResume() {
+            const data = JSON.parse(localStorage.getItem("resume"));
+            if (!data) {
+                alert("No resume data found to download.");
+                return;
+            }
+
+            const text = `Resume\n\nName: ${data.name}\nEducation: ${data.education}\nSkills: ${data.skills}\nExperience: ${data.experience}`;
+            
+            const blob = new Blob([text], { type: "text/plain" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "Resume.txt";
+            link.click();
+        }
+
+        window.onload = loadResume;
+    </script>
+</body>
+</html>
